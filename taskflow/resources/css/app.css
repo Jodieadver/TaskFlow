@@ -5,6 +5,14 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
+@plugin "flowbite/plugin";
+@import "flowbite/src/themes/default";
+@source "./**/*.{vue,js,ts}";
+@source "../**/*.{vue,js,ts}";
+@source "../../node_modules/flowbite/**/*.js";
+@source "../../node_modules/flowbite-datepicker/**/*.js";
+
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
