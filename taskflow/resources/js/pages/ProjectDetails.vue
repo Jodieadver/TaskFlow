@@ -61,14 +61,21 @@ const columns = computed(() =>
     // -->
     <div class="py-10">
         <header>
-            <div class="grid grid-cols-[8fr_1fr] mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-[3fr_1fr] mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div>
                 <h1 class="text-3xl font-bold tracking-tight text-gray-900">{{ project.title }}</h1>
                 <h1 class="text-xl tracking-tight text-gray-400">{{ project.description }}</h1>
+
+                    <h1 class="text-xl tracking-tight text-gray-400">{{ project }}</h1>
+
                 </div>
                 <!-- <h1 class="text-xl tracking-tight text-gray-400">{{ props }}</h1> -->
                  <!-- <button type="button" class="rounded-full bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">Button text</button> -->
-                  <a :href="`/dashboard/${project.id}/edit`" class="card-button mx-auto p-2 text-center">🔧 Edit Project</a>
+                 
+                 <div class="flex justify-end gap-2">
+                 <a :href="`/dashboard/${project.id}/memberInProject`" class="card-button mx-auto p-2 text-center">👥 Add People</a>
+                 <a :href="`/dashboard/${project.id}/edit`" class="card-button mx-auto p-2 text-center">🔧 Edit Project</a>
+                 </div>
             </div>
 
 

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ProjectInvitationController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -18,6 +19,12 @@ Route::get('/', function () {
 Route::middleware('auth')->get('/dashboard', [ProjectController::class, 'index'
 ])->name('dashboard');    
 
+
+/*
+==============================
+    Project Routes
+==============================
+*/
 // Route to a project creation form
 Route::middleware('auth')->get('/dashboard/create', function () {
     return Inertia::render('ProjectForm');
@@ -44,12 +51,47 @@ Route::middleware('auth')->get('/dashboard/{project}', [TaskController::class, '
     ->name('projects.tasks.index')
     ->whereNumber('project');
 
-
+/*
+==============================
+    Task Routes
+==============================
+*/
 Route::get('/dashboard/{project}/tasks/create', [TaskController::class, 'sendUserList'])
     ->name('task');   
 
 Route::post('/dashboard/{project}/tasks/create', [TaskController::class, 'store'
 ])->name('task.store');
+
+
+
+/*
+==============================
+    Member Routes
+==============================
+*/
+Route::get('/dashboard/{project}/memberInProject', [TaskController::class, 'editMember'])
+    ->name('member.edit');   
+
+/*
+==============================
+    Invite Member Routes
+==============================
+*/
+Route::middleware(['auth'])->group(function () {
+    Route::post('/dashboard/{project}/memberInProject', [ProjectInvitationController::class, 'store'])
+        ->name('projects.invitations.store');
+
+    Route::delete('/dashboard/{project}/memberInProject', [ProjectInvitationController::class, 'destroy'])
+        ->name('projects.invitations.destroy');
+});
+
+Route::get('/invites/accept/{token}', [ProjectInvitationController::class, 'accept'])
+    ->name('invites.accept');
+
+
+
+
+
 
 
 

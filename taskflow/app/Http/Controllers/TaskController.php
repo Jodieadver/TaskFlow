@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
@@ -33,13 +34,14 @@ class TaskController extends Controller
 
     /**
      * Send user list to the task creation form.
+     * 可能错误
      */
 
     public function sendUserList(Project $project)
     {
         $users = $project->users()->get(['id', 'name', 'email']);
         return Inertia::render('TaskForm', [
-            'project' => $project->only(['id', 'title']),
+           'project' => $project->only(['id', 'title']),
             'users' => $users,
         ]);
     }
@@ -82,9 +84,26 @@ class TaskController extends Controller
 
 
 
+/**
+     * Send user list to the task creation form.
+ */
 
+    public function editMember(Project $project)
+    {
+        
+        $userId = Project::whereKey($project->id)->value('user_id');
+        $users = User::whereKey($userId)->get();
+          
+        // $users = $project->users()
+        // ->get(['users_id']);
+        return Inertia::render('MemberList', [
+           'project' => $project,
+            'users' => $users,
+        ]);
 
+    }
 
+ 
 
 
 

@@ -152,7 +152,7 @@ const destroyProject = () => {
                         <button type="button" @click="destroyProject"
                             class="mr-auto rounded-md border border-gray-300 bg-red-500 text-white hover:bg-red-700 py-2 px-4 text-sm font-medium shadow-sm hover:bg-gray-50 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600">
                             Delete </button>
-                        <a :href="`/dashboard/${project.id}`" class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"> Cancel </a>
+                        <a :href="`/dashboard/${project[0].id}`" class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"> Cancel </a>
                        
                         <button type="submit"
                             class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600">
