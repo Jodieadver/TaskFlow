@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Notifications\ProjectInvitationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Notification;
 
 class ProjectInvitationController extends Controller
 {
@@ -50,7 +51,7 @@ class ProjectInvitationController extends Controller
         Notification::route('mail', $invitation->email)
     ->notify(new ProjectInvitationNotification($invitation));
 
-        return back()->with('success', 'Invitation sent.');
+        return redirect()->route('projects.tasks.index', ['project' => $project->id])->with('success', 'Invitation sent.');
     }
 
     // 接受邀请

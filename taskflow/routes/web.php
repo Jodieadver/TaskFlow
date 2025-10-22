@@ -4,9 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\NavbarController;
 use App\Http\Controllers\ProjectInvitationController;
 
 Route::get('/', function () {
+    
     return Inertia::render('Welcome');
 })->name('home');
 
@@ -17,7 +19,14 @@ Route::get('/', function () {
 
 
 Route::middleware('auth')->get('/dashboard', [ProjectController::class, 'index'
-])->name('dashboard');    
+])->name('dashboard');   
+
+// log out and back to main page
+Route::middleware('auth')->post('/dashboard/logout', [NavbarController::class, 'userLogout'],
+)
+        ->name('userLogout');
+
+
 
 
 /*
