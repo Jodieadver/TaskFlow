@@ -11,6 +11,9 @@ import { usePage } from '@inertiajs/vue3'
 const page = usePage()
 
 
+const avatarUrl = '/images/avatar.jpg'
+
+
 </script>
 
 <template>
@@ -123,8 +126,7 @@ const page = usePage()
       <div class="border-t border-gray-200 pt-4 pb-3">
         <div class="flex items-center px-4">
           <div class="shrink-0">
-            <img class="size-10 rounded-full bg-gray-100 outline -outline-offset-1 outline-black/5"
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            <img class="size-10 rounded-full bg-gray-100 outline -outline-offset-1 outline-black/5" src="avatarUrl"
               alt="" />
           </div>
           <div class="ml-3">
