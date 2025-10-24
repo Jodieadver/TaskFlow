@@ -26,7 +26,7 @@ import Navbar from '../components/Navbar.vue'
     <header>
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h1 class="text-3xl font-bold tracking-tight text-gray-900">Projects</h1>
-    
+    <h1 class="text-3xl font-bold tracking-tight text-gray-900">{{projects}}</h1>
         <!-- <h1 v-if="user" class="text-3xl font-bold tracking-tight text-gray-900">{{ user.id }}</h1> -->
 
       </div>

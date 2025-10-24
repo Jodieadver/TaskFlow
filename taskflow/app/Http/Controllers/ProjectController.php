@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
@@ -15,12 +16,14 @@ class ProjectController extends Controller
     public function index()
     {
         $userId = Auth::id();
-
-        $projects = Project::where('user_id', $userId)->with('users', 'tasks')->get();
+        $user = User::find($userId);
+        $projects = $user->projects()->get();
+        // $projects = Auth::user() -> projects;
 
         // $projects = Project::with('users', 'tasks')->get();
         return Inertia::render('Dashboard', [
             'projects' => $projects
+           
         ]);
     }
 
@@ -48,11 +51,12 @@ class ProjectController extends Controller
     $data = array_merge($validated, [
         // 'user_id' => $request->user()->id ?? null,   
         'status'  => 'active',
-        'user_id'   => Auth::id(),
+        // 'user_id'   => Auth::id(),
         'slug'    => Str::slug($validated['title']),
     ]);
 
     $project = Project::create($data);
+    $project->users()->attach(Auth::id(), ['role' => 'admin']);
 
 
     return redirect()->route('dashboard')->with('success', 'Project created successfully.');

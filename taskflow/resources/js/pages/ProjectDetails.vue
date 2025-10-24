@@ -67,6 +67,7 @@ const columns = computed(() =>
                 <h1 class="text-xl tracking-tight text-gray-400">{{ project.description }}</h1>
 
                     <h1 class="text-xl tracking-tight text-gray-400">{{ project }}</h1>
+                    <h1 class="text-xl tracking-tight text-gray-400">{{ users }}</h1>
 
                 </div>
                 <!-- <h1 class="text-xl tracking-tight text-gray-400">{{ props }}</h1> -->

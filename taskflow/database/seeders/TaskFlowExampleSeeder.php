@@ -2,68 +2,76 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Task;
-use Illuminate\Support\Facades\Hash;
 
-class TaskFlowExampleSeeder extends Seeder
+class TaskFlowexampleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        
-        $admin = User::firstOrCreate(
-            ['email' => 'alice@example.com'],
-            ['name' => 'Alice', 'password' => Hash::make('password')]
-        );
+        $faker = Faker::create();
 
-        $member = User::firstOrCreate(
-            ['email' => 'bob@example.com'],
-            ['name' => 'Bob', 'password' => Hash::make('password')]
-        );
-
-       
-        $project = Project::firstOrCreate(
-            ['title' => 'TaskFlow MVP'],
-            ['description' => 'Build the first version of TaskFlow app']
-        );
-
-      
-        $project->users()->syncWithoutDetaching([
-            $admin->id => ['role' => 'admin'],
-            $member->id => ['role' => 'member'],
-        ]);
-
-        
-        $tasks = [
-            [
-                'title' => 'Set up Laravel backend',
-                'description' => 'Initialize Laravel with Breeze and migrations',
-                'status' => 'to_do',
-                'user_id' => $admin->id,
-            ],
-            [
-                'title' => 'Implement Vue frontend',
-                'description' => 'Build dashboard with Inertia and Tailwind',
-                'status' => 'in_progress',
-                'user_id' => $member->id,
-            ],
-            [
-                'title' => 'Deploy to production',
-                'description' => 'Set up hosting and CI/CD pipeline',
-                'status' => 'to_do',
-                'user_id' => $admin->id,
-            ],
-        ];
-
-        foreach ($tasks as $taskData) {
-            $project->tasks()->create($taskData);
+        // ---------- Create Users ----------
+        $users = [];
+        for ($i = 0; $i < 10; $i++) {
+            $users[] = User::create([
+                'name' => $faker->name,
+                'email' => $faker->unique()->safeEmail,
+                'password' => bcrypt('password'),
+            ]);
         }
 
-        $this->command->info('✅ TaskFlow Example Data Seeded Successfully!');
+        $users = collect($users);
+
+        // ---------- Create Projects ----------
+        for ($i = 0; $i < 10; $i++) {
+            $project = Project::create([
+                'title' => $faker->sentence(3),
+                'description' => $faker->paragraph,
+                'status' => $faker->randomElement(['pending', 'in_progress', 'completed']),
+                'due_date' => $faker->dateTimeBetween('now', '+2 months'),
+                'completed_at' => $faker->optional()->dateTimeBetween('-1 month', 'now'),
+            ]);
+
+            // Attach 1-3 random users with pivot data
+            $projectUsers = $users->random(rand(1, 3));
+            foreach ($projectUsers as $user) {
+                $project->users()->attach($user->id, [
+                    'role' => $faker->randomElement(['admin', 'member']),
+                    'completed_at' => $faker->optional()->dateTimeBetween('-1 month', 'now'),
+                ]);
+            }
+
+            // Create 2-5 tasks per project
+            foreach (range(1, rand(2, 5)) as $j) {
+                $task = Task::create([
+                    'title' => $faker->sentence(4),
+                    'description' => $faker->paragraph,
+                    'status' => $faker->randomElement(['pending', 'in_progress', 'completed']),
+                    'due_date' => $faker->dateTimeBetween('now', '+1 month'),
+                    'completed_at' => $faker->optional()->dateTimeBetween('-1 month', 'now'),
+                    'project_id' => $project->id,
+                ]);
+
+                // Attach 1-3 random users to task
+                $taskUsers = $users->random(rand(1, 3));
+                $task->users()->attach($taskUsers->pluck('id')->toArray());
+            }
+
+            // Create 0-3 project invitations
+            foreach (range(1, rand(0, 3)) as $k) {
+                $project->invitations()->create([
+                    'inviter_id' => $project->users->random()->id,
+                    'email' => $faker->unique()->safeEmail,
+                    'token' => bin2hex(random_bytes(32)),
+                    'expires_at' => $faker->dateTimeBetween('now', '+1 month'),
+                    'accepted_at' => $faker->optional()->dateTimeBetween('now', '+1 month'),
+                ]);
+            }
+        }
     }
 }

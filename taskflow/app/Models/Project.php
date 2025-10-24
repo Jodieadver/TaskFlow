@@ -19,9 +19,12 @@ class Project extends Model
         'completed_at',
     ];
 
+
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)
+            ->withPivot(['role', 'completed_at'])
+            ->withTimestamps();
     }
 
     public function tasks()

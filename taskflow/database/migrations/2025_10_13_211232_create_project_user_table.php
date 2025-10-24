@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('project_user', function (Blueprint $table) {
-            $table->foreignId('project_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('project_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->enum('role', ['admin', 'member'])->default('member');
             $table->date('completed_at')->nullable();
             $table->timestamps();
@@ -21,21 +21,7 @@ return new class extends Migration
         });
     }
 
-        // App\Models\Project
-    public function users()
-    {
-        return $this->belongsToMany(User::class)
-            ->withPivot(['role', 'completed_at'])
-            ->withTimestamps();
-    }
-
-    // App\Models\User
-    public function projects()
-    {
-        return $this->belongsToMany(Project::class)
-            ->withPivot(['role', 'completed_at'])
-            ->withTimestamps();
-    }
+    
 
     /**
      * Reverse the migrations.

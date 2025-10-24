@@ -91,13 +91,12 @@ class TaskController extends Controller
     public function editMember(Project $project)
     {
         
-        $userId = Project::whereKey($project->id)->value('user_id');
-        $users = User::whereKey($userId)->get();
+        $users = Project::find($project->id)->users()->get();
+        // $users = User::find($userId)->users()->get();
           
         // $users = $project->users()
         // ->get(['users_id']);
         return Inertia::render('MemberList', [
-           'project' => $project,
             'users' => $users,
         ]);
 
