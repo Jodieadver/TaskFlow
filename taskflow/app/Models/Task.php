@@ -12,7 +12,7 @@ class Task extends Model
         'title',
         'description',
         'status',
-        'user_id',
+        'project_id',
         'due_date',
         'completed_at',
     ];
@@ -22,8 +22,10 @@ class Task extends Model
         return $this->belongsTo(Project::class);
     }
 
+
     public function users()
-    {
-        return $this->belongsTo(User::class);
-    }
+        {
+            return $this->belongsToMany(User::class)
+                ->withTimestamps();
+        }
 }

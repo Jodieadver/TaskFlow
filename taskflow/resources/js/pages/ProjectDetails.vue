@@ -41,7 +41,7 @@ const columns = computed(() =>
                 due_date: t.due_date,
                 description: t.description,
                 updated_at: onlyDate(t.updated_at),
-                assignee: props.users.find(u => u.id === t.user_id)?.name || 'Unassigned',
+                assignee: t.users?.[0]?.name || 'Unassigned',
             }))
 
 
@@ -63,24 +63,24 @@ const columns = computed(() =>
         <header>
             <div class="grid grid-cols-[3fr_1fr] mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div>
-                <h1 class="text-3xl font-bold tracking-tight text-gray-900">{{ project.title }}</h1>
-                <h1 class="text-xl tracking-tight text-gray-400">{{ project.description }}</h1>
+                    <h1 class="text-3xl font-bold tracking-tight text-gray-900">{{ project.title }}</h1>
+                    <h1 class="text-xl tracking-tight text-gray-400">{{ project.description }}</h1>
 
-                    <h1 class="text-xl tracking-tight text-gray-400">{{ project }}</h1>
-                    <h1 class="text-xl tracking-tight text-gray-400">{{ users }}</h1>
+                    <!-- <h1 class="text-xl tracking-tight text-gray-400">{{ project }}</h1>
+                    <h1 class="text-xl tracking-tight text-gray-400">{{ tasks }}</h1> -->
 
                 </div>
-                <!-- <h1 class="text-xl tracking-tight text-gray-400">{{ props }}</h1> -->
-                 <!-- <button type="button" class="rounded-full bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">Button text</button> -->
-                 
-                 <div class="flex justify-end gap-2">
-                 <a :href="`/dashboard/${project.id}/memberInProject`" class="card-button mx-auto p-2 text-center">👥 Add People</a>
-                 <a :href="`/dashboard/${project.id}/edit`" class="card-button mx-auto p-2 text-center">🔧 Edit Project</a>
-                 </div>
+
+                <div class="flex justify-end gap-2">
+                    <a :href="`/dashboard/${project.id}/memberInProject`" class="card-button mx-auto p-2 text-center">👥
+                        Add People</a>
+                    <a :href="`/dashboard/${project.id}/edit`" class="card-button mx-auto p-2 text-center">🔧 Edit
+                        Project</a>
+                </div>
             </div>
 
 
-            
+
         </header>
     </div>
 
@@ -96,17 +96,26 @@ const columns = computed(() =>
         <div class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
 
             <div class="grid grid-cols-3 gap-6">
+
+
+
                 <div v-for="column in columns" :key="column.id" class="bg-gray-50 p-4 rounded-lg shadow-sm">
                     <h2 class="text-lg font-semibold mb-4">{{ column.label }}</h2>
 
-                    <div v-for="task in column.tasks" :key="task.id" class="bg-white p-3 rounded-md shadow-sm mb-3">
-                        <h3 class="font-medium">{{ task.title }}</h3>
-                        <p class="text-sm text-gray-500">{{ task.assignee }}</p>
-                        <span class="text-xs text-gray-400">Updated at {{ task.updated_at }}</span>
+                    <div v-for="task in column.tasks" :key="task.id">
+                        <a :href="`/dashboard/${project.id}/tasks/${task.id}`"
+                            class="block bg-white p-3 rounded-md shadow-sm mb-3 hover:bg-gray-100 transition-colors">
+                            <h3 class="font-medium">{{ task.title }}</h3>
+                            <p class="text-sm text-gray-500">{{ task.assignee }}</p>
+                            <span class="text-xs text-gray-400">Updated at {{ task.updated_at }}</span>
+                        </a>
                     </div>
 
-                    <a :href="`/dashboard/${project.id}/tasks/create`" class="card-button text-blue-600 text-sm mt-2 ">+ Add task</a>
+                    <a :href="`/dashboard/${project.id}/tasks/create`" class="card-button text-blue-600 text-sm mt-2 ">+
+                        Add task</a>
                 </div>
+
+
             </div>
 
         </div>

@@ -12,13 +12,15 @@ const user = (page.props as any).auth?.user
 const errors = (usePage().props as any).errors || {}
 
 const props = defineProps({
-    project: { type: Object, default: () => ({}) }
+    project: { type: Object, default: () => ({}) },
+    users: { type: Object, default: () => ({}) },
+    task: { type: Object, default: () => ({}) }
 })
 
 
-const destroyProject = () => {
-    if (confirm('Are you sure you want to delete this project? This action cannot be undone.')) {
-        router.delete(`/dashboard/${props.project[0].id}/edit`, { preserveScroll: true })
+const destroytask = () => {
+    if (confirm('Are you sure you want to delete this task? This action cannot be undone.')) {
+        router.delete(`/dashboard/${props.project.id}/tasks/${props.task.id}`, { preserveScroll: true })
     }
 }
 
@@ -36,22 +38,26 @@ const destroyProject = () => {
     <div class="py-10">
         <header>
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <h1 class="text-3xl font-bold tracking-tight text-gray-900">Edit Project</h1>
-                <!-- <h1 v-if="user" class="text-3xl font-bold tracking-tight text-gray-900">{{ project[0].id }}</h1> -->
+                <h1 class="text-3xl font-bold tracking-tight text-gray-900">Edit task</h1>
+                <!-- <h1 v-if="user" class="text-3xl font-bold tracking-tight text-gray-900">{{ user.id }}</h1> -->
+                <div v-if="$page.props.errors.title" class="text-red-500">
+                    {{ $page.props.errors.title }}
+                </div>
+
             </div>
 
         </header>
     </div>
     <!-- 
     =======================
-    Project Form 
+    task Form 
     ======================= -->
 
     <main>
 
         <div class="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
 
-            <form method="POST" :action="`/dashboard/${project[0].id}/edit`" enctype="multipart/form-data"
+            <form method="POST" :action="`/dashboard/${project.id}/tasks/${task.id}`" enctype="multipart/form-data"
                 class="border rounded-md p-12 space-y-8 ">
                 <input type="hidden" name="_token" :value="$page.props.csrf_token">
                 <input type="hidden" name="_method" value="PUT">
@@ -61,29 +67,54 @@ const destroyProject = () => {
                         <div class="space-y-6 sm:space-y-5">
 
                             <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-                                <label for="project-title"
-                                    class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Project Title
+                                <label for="task-title"
+                                    class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> task Title
                                 </label>
                                 <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                    <input :value="project?.[0]?.title ?? ''" type="text" name="title"
-                                        id="project-title"
+                                    <input :value="task.title" type="text" name="title" id="task-title"
                                         class="p-3 block w-full max-w-lg rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm" />
 
                                 </div>
                             </div>
 
                             <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
-                                <label for="project-description"
+                                <label for="task-description"
                                     class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Description
                                 </label>
                                 <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                    <textarea :value="project?.[0]?.description ?? ''" id="project-description"
-                                        name="description" rows="3"
+                                    <textarea :value="task.description" id="task-description" name="description"
+                                        rows="3"
                                         class="p-3 block w-full max-w-lg rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
-                                    <p class="mt-2 text-sm text-gray-500 "> Brief description for your project. URLs are
+                                    <p class="mt-2 text-sm text-gray-500 "> Brief description for your task. URLs are
                                         hyperlinked. </p>
                                 </div>
                             </div>
+
+
+
+                            <!-- Assignee -->
+                            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                                <label for="task-description"
+                                    class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Assignee
+                                </label>
+
+                                <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                    <select v-model="user.id" name="user_id" class="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-[15px]
+                                        focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100">
+                                        <option value="" disabled>Select a user</option>
+                                        <option v-for="u in users" :key="u.id" :value="u.id">{{ u.name }}</option>
+                                    </select>
+                                    <span
+                                        class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400">▾</span>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
 
                             <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
                                 <label for="due-date" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
@@ -100,9 +131,8 @@ const destroyProject = () => {
                                                 d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                         </svg>
                                     </div>
-                                    <input :value="project?.[0]?.due_date ?? ''" datepicker
-                                        datepicker-format="yyyy-mm-dd" datepicker-autohide name="due_date" id="due-date"
-                                        type="text"
+                                    <input :value="task.due_date" datepicker datepicker-format="yyyy-mm-dd"
+                                        datepicker-autohide name="due_date" id="due-date" type="text"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Select date">
                                 </div>
@@ -110,6 +140,28 @@ const destroyProject = () => {
 
 
 
+                            </div>
+
+
+
+
+
+
+                            <!-- Status -->
+                            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+                                <label for="task-description"
+                                    class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Status
+                                </label>
+                                <div class="relative max-w-sm">
+                                    <select v-model="task.status" name="status" class="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-[15px]
+                     focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100">
+                                        <option value="to_do">To Do</option>
+                                        <option value="in_progress">In Progress</option>
+                                        <option value="completed">Done</option>
+                                    </select>
+                                    <span
+                                        class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400">▾</span>
+                                </div>
                             </div>
 
 
@@ -134,8 +186,8 @@ const destroyProject = () => {
                                                 <label for="file-upload"
                                                     class="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2">
                                                     <span>Upload a file</span>
-                                                    <input :value="project?.[0]?.picture ?? ''" id="file-upload"
-                                                        name="picture" type="file" class="sr-only" />
+                                                    <input :value="task.picture" id="file-upload" name="picture"
+                                                        type="file" class="sr-only" />
                                                 </label>
                                                 <p class="pl-1">or drag and drop</p>
                                             </div>
@@ -151,11 +203,11 @@ const destroyProject = () => {
 
 
                     <div class="flex justify-end">
-                        <!-- <a :href="`/dashboard/${project.id}`" class="mr-auto rounded-md border border-gray-300 bg-red-500 text-white hover:bg-red-700 py-2 px-4 text-sm font-medium shadow-sm hover:bg-gray-50 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"> Delete </a> -->
-                        <button type="button" @click="destroyProject"
+                        <!-- <a :href="`/dashboard/${task.id}`" class="mr-auto rounded-md border border-gray-300 bg-red-500 text-white hover:bg-red-700 py-2 px-4 text-sm font-medium shadow-sm hover:bg-gray-50 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600"> Delete </a> -->
+                        <button type="button" @click="destroytask"
                             class="mr-auto rounded-md border border-gray-300 bg-red-500 text-white hover:bg-red-700 py-2 px-4 text-sm font-medium shadow-sm hover:bg-gray-50 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600">
                             Delete </button>
-                        <a :href="`/dashboard/${project[0].id}`"
+                        <a :href="`/dashboard/${project.id}`"
                             class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600">
                             Cancel </a>
 

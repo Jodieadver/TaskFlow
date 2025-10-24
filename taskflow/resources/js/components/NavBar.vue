@@ -23,7 +23,7 @@ const page = usePage()
           </div>
           <div class="hidden lg:ml-6 lg:flex lg:space-x-8">
             <!-- Current: "border-indigo-600 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-            <a href="#"
+            <a href="/dashboard"
               class="inline-flex items-center border-b-2 border-indigo-600 px-1 pt-1 text-sm font-medium text-gray-900">Dashboard</a>
             <!-- <a href="#" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">Team</a> -->
             <!-- <a href="#" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">Projects</a> -->
@@ -89,12 +89,14 @@ const page = usePage()
                 </MenuItem>
 
                 <MenuItem v-slot="{ active }">
-                <Link href="/dashboard/logout" class="[active ? 'bg-gray-100 outline-hidden' : '', 'block px-4 py-2 text-sm text-gray-700']"  method="post" as="button" > Sign Out
+                <Link href="/dashboard/logout"
+                  class="[active ? 'bg-gray-100 outline-hidden' : '', 'block px-4 py-2 text-sm text-gray-700']"
+                  method="post" as="button"> Sign Out
                 </Link>
-               
+
                 </MenuItem>
 
-                
+
               </MenuItems>
             </transition>
           </Menu>

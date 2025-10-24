@@ -25,8 +25,7 @@ const errors = (usePage().props as any).errors || {}
         <header>
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <h1 class="text-3xl font-bold tracking-tight text-gray-900">Create a Project</h1>
-                <!-- <h1 v-if="user" class="text-3xl font-bold tracking-tight text-gray-900">{{ user.id }}</h1> -->
-            </div>
+
 
         </header>
     </div>
@@ -45,10 +44,7 @@ const errors = (usePage().props as any).errors || {}
 
                 <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
                     <div class="space-y-6 sm:xspace-y-5">
-                        <!-- <div>
-                            <h3 class="text-lg leading-6 font-medium text-gray-900">Project Information</h3>
-                            <p class="mt-1 max-w-2xl text-sm text-gray-500">Use a permanent address where you can receive mail.</p>
-                        </div> -->
+
                         <div class="space-y-6 sm:space-y-5">
 
                             <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
@@ -56,7 +52,7 @@ const errors = (usePage().props as any).errors || {}
                                     class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Project Title
                                 </label>
                                 <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                    <input type="text" name="title" id="project-title" 
+                                    <input type="text" name="title" id="project-title"
                                         class="p-3 block w-full max-w-lg rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm" />
                                 </div>
                             </div>
@@ -88,8 +84,8 @@ const errors = (usePage().props as any).errors || {}
                                                 d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                         </svg>
                                     </div>
-                                    <input datepicker datepicker-format="yyyy-mm-dd" datepicker-autohide name="due_date" id="due-date"
-                                        type="text"
+                                    <input datepicker datepicker-format="yyyy-mm-dd" datepicker-autohide name="due_date"
+                                        id="due-date" type="text"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="Select date">
                                 </div>

@@ -18,22 +18,7 @@ return new class extends Migration
             $table->primary(['task_id', 'user_id']);
         });
     }
-    // App\Models\Task
-        public function users()
-        {
-            return $this->belongsToMany(User::class)
-                ->withTimestamps();
-        }
-
-        // App\Models\User
-        public function tasks()
-        {
-            return $this->belongsToMany(Task::class)
-                ->withTimestamps();
-        }
-
-
-
+   
 
     /**
      * Reverse the migrations.

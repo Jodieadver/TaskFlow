@@ -48,10 +48,8 @@ class ProjectController extends Controller
         $validated['due_date'] = Carbon::createFromFormat('Y-m-d', $validated['due_date'])->toDateString();
     }
 
-    $data = array_merge($validated, [
-        // 'user_id' => $request->user()->id ?? null,   
+    $data = array_merge($validated, [ 
         'status'  => 'active',
-        // 'user_id'   => Auth::id(),
         'slug'    => Str::slug($validated['title']),
     ]);
 
@@ -70,10 +68,15 @@ class ProjectController extends Controller
         
         $userId = Auth::id();
 
-        $project = Project::with('users', 'tasks')
-            ->where('user_id', $userId)
-            ->where('id', $project->id)  
-            ->get();
+        $user = User::find($userId);
+        $project = $user->projects()->where('projects.id', $project -> id)->get();
+
+        // $project = 
+        
+        // Project::with('users', 'tasks')
+        //     ->where('user_id', $userId)
+        //     ->where('id', $project->id)  
+        //     ->get();
 
         return Inertia::render('EditProjectForm', [
             'project' => $project
@@ -98,7 +101,6 @@ class ProjectController extends Controller
         $validated['due_date'] = Carbon::createFromFormat('Y-m-d', $validated['due_date'])->toDateString();
 
     }
-        // $project -> update($validated);
         $project->update($validated);
 
         return redirect()->route('projects.tasks.index', ['project' => $project->id])->with('success', 'Project updated successfully!');

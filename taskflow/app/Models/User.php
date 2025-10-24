@@ -57,4 +57,12 @@ class User extends Authenticatable
             ->withPivot(['role', 'completed_at'])
             ->withTimestamps();
     }
+
+    public function tasks()
+        {
+            return $this->belongsToMany(Task::class)
+                ->withTimestamps();
+        }
+
+
 }
