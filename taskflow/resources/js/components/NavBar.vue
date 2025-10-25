@@ -70,8 +70,7 @@ const avatarUrl = '/images/avatar.jpg'
               class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
               <span class="absolute -inset-1.5" />
               <span class="sr-only">Open user menu</span>
-              <img class="size-8 rounded-full bg-gray-100 outline -outline-offset-1 outline-black/5"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              <img class="size-8 rounded-full bg-gray-100 outline -outline-offset-1 outline-black/5" :src="avatarUrl"
                 alt="" />
             </MenuButton>
 
@@ -150,6 +149,7 @@ const avatarUrl = '/images/avatar.jpg'
           <DisclosureButton as="a" href="#"
             class="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800">Sign out
           </DisclosureButton>
+
         </div>
       </div>
     </DisclosurePanel>
