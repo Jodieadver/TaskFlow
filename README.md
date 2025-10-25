@@ -4,7 +4,9 @@ A Task Management website with Laravel(PHP), VUE.js, SQLite.
 
 ## Architecture
 
-!(https://github.com/Jodieadver/TaskFlow/blob/master/img/Architecture.png)
+![Functions Architecture](https://github.com/Jodieadver/TaskFlow/blob/master/img/Architecture.png)
+
+![Database Architecture](https://github.com/Jodieadver/TaskFlow/blob/master/img/Database.png)
 
 ## Features
 
