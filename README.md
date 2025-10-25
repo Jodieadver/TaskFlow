@@ -16,3 +16,4 @@ A Task Management website with Laravel(PHP), VUE.js, SQLite.
 - Member invitation through email
 
 ## Final Result
+![Dashboard](https://github.com/Jodieadver/TaskFlow/blob/master/img/dashboard.png)
