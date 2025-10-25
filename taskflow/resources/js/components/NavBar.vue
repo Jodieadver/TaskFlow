@@ -126,7 +126,7 @@ const avatarUrl = '/images/avatar.jpg'
       <div class="border-t border-gray-200 pt-4 pb-3">
         <div class="flex items-center px-4">
           <div class="shrink-0">
-            <img class="size-10 rounded-full bg-gray-100 outline -outline-offset-1 outline-black/5" src="avatarUrl"
+            <img class="size-10 rounded-full bg-gray-100 outline -outline-offset-1 outline-black/5" :src="avatarUrl"
               alt="" />
           </div>
           <div class="ml-3">
